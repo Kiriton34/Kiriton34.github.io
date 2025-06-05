@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Blog Personal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        nav a:hover, nav a.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .section {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1, h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            font-size: 2rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .blog-posts {
+            display: grid;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .blog-post {
+            background: rgba(255, 255, 255, 0.5);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .blog-post:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .blog-post h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .blog-post .date {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .profile-card {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            font-weight: bold;
+        }
+
+        .skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .skill-item {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .work-item {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 25px;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .work-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .corte {
+            margin-bottom: 40px;
+        }
+
+        .corte h3 {
+            color: #667eea;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 8px;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .contact-item {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">Nuestro Blog</div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="nav-link active" data-section="blog">Inicio</a></li>
+                        <li><a href="#" class="nav-link" data-section="about">Acerca de Nosotros</a></li>
+                        <li><a href="#" class="nav-link" data-section="works">Trabajos del Semestre</a></li>
+                        <li><a href="#" class="nav-link" data-section="contact">Contáctanos</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Sección del Blog -->
+        <section id="blog" class="section active">
+            <h1>Bienvenido a Nuestro Blog</h1>
+            <p>Somos dos estudiantes apasionados por el medio ambiente, la cinematografía y la investigación académica. Juntos exploramos y compartimos contenido sobre estos temas cruciales para nuestro desarrollo profesional.</p>
+            
+            <div class="blog-posts">
+                <article class="blog-post">
+                    <h3>Los Retos Ambientales de Bucaramanga: Una Perspectiva Académica</h3>
+                    <div class="date">Publicado el 15 de Mayo, 2025</div>
+                    <p>Nuestra ciudad enfrenta desafíos ambientales significativos que requieren análisis profundo y soluciones innovadoras. A través de nuestro primer corte académico, exploramos las causas principales de la degradación ambiental en la región metropolitana.</p>
+                </article>
+
+                <article class="blog-post">
+                    <h3>Visualizando el Cambio: Infografías y Líneas de Tiempo</h3>
+                    <div class="date">Publicado el 10 de Mayo, 2025</div>
+                    <p>La comunicación visual es fundamental para transmitir información compleja de manera efectiva. En nuestro segundo corte, desarrollamos herramientas visuales que ayudan a comprender mejor los fenómenos que estudiamos.</p>
+                </article>
+
+                <article class="blog-post">
+                    <h3>El Arte de Contar Historias: Tecnología Cinematográfica</h3>
+                    <div class="date">Publicado el 5 de Mayo, 2025</div>
+                    <p>La cinematografía moderna combina arte y tecnología para crear experiencias visuales impactantes. Exploramos las herramientas, técnicas y procesos que hacen posible la magia del cine contemporáneo.</p>
+                </article>
+
+                <article class="blog-post">
+                    <h3>Metodología de Investigación Colaborativa</h3>
+                    <div class="date">Publicado el 1 de Mayo, 2025</div>
+                    <p>El trabajo en equipo académico requiere metodologías específicas y herramientas adecuadas. Compartimos nuestra experiencia y aprendizajes en la investigación colaborativa universitaria.</p>
+                </article>
+
+                <article class="blog-post">
+                    <h3>Integración de Disciplinas: Medio Ambiente y Comunicación Visual</h3>
+                    <div class="date">Publicado el 28 de Abril, 2025</div>
+                    <p>La interdisciplinariedad enriquece nuestra comprensión de problemas complejos. Analizamos cómo la comunicación visual puede potenciar la conciencia ambiental y promover el cambio social.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Sección Acerca de Nosotros -->
+        <section id="about" class="section">
+            <h2>Acerca de Nosotros</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; margin-bottom: 30px;">
+                <div class="profile-card">
+                    <div class="profile-image">A1</div>
+                    <h3>Anthony Delgado</h3>
+                    <p><strong>Co-fundador del Blog</strong></p>
+                    <p>Especializado en investigación ambiental y análisis de problemáticas urbanas. Mi enfoque se centra en encontrar soluciones prácticas para los desafíos ambientales de Bucaramanga y su área metropolitana.</p>
+                </div>
+                
+                <div class="profile-card">
+                    <div class="profile-image">A2</div>
+                    <h3>Fabio Torres</h3>
+                    <p><strong>Co-fundador del Blog</strong></p>
+                    <p>Apasionado por la comunicación visual y la tecnología cinematográfica. Me especializo en crear contenido visual impactante y explorar las nuevas tendencias en producción audiovisual.</p>
+                </div>
+            </div>
+
+            <div style="background: rgba(255, 255, 255, 0.8); border-radius: 15px; padding: 30px; margin-bottom: 30px;">
+                <h3>Nuestra Misión</h3>
+                <p>Como equipo de trabajo, creemos en la importancia de la investigación interdisciplinaria y la comunicación efectiva. Nuestro objetivo es investigar, analizar y compartir conocimiento sobre medio ambiente, comunicación visual y tecnología, contribuyendo al desarrollo académico y social de nuestra comunidad.</p>
+            </div>
+
+            <div class="skills">
+                <div class="skill-item">
+                    <h4>🌍 Investigación Ambiental</h4>
+                    <p>Análisis de problemáticas urbanas, estudios de impacto, propuestas de solución</p>
+                </div>
+                <div class="skill-item">
+                    <h4>📊 Comunicación Visual</h4>
+                    <p>Infografías, líneas de tiempo, diseño gráfico, visualización de datos</p>
+                </div>
+                <div class="skill-item">
+                    <h4>🎬 Tecnología Cinematográfica</h4>
+                    <p>Producción audiovisual, equipos técnicos, post-producción</p>
+                </div>
+                <div class="skill-item">
+                    <h4>📈 Investigación Colaborativa</h4>
+                    <p>Metodología académica, trabajo en equipo, análisis de datos</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Trabajos del Semestre -->
+        <section id="works" class="section">
+            <h2>Nuestros Trabajos del Semestre</h2>
+            <p>Aquí encontrarás todos los proyectos y trabajos que hemos realizado en colaboración durante los tres cortes académicos del semestre.</p>
+
+            <div class="corte">
+                <h3>🌱 Primer Corte - Problemática Ambiental en Bucaramanga</h3>
+                <div class="works-grid">
+                    <div class="work-item">
+                        <h4>Causas y Daños Ambientales en Bucaramanga</h4>
+                        <p><strong>Fecha:</strong> Febrero - Marzo 2025</p>
+                        <p><strong>Descripción:</strong> Investigación exhaustiva sobre las principales causas de degradación ambiental en Bucaramanga, incluyendo contaminación del aire, manejo inadecuado de residuos, deforestación urbana y contaminación del río de oro.</p>
+                        <p><strong>Causas Identificadas:</strong> Crecimiento urbano descontrolado, industrias sin control ambiental, transporte público deficiente, falta de cultura ciudadana ambiental.</p>
+                        <p><strong>Efectos Documentados:</strong> Deterioro de la calidad del aire, pérdida de biodiversidad urbana, contaminación hídrica, problemas de salud pública.</p>
+                        <p><strong>Colaboradores:</strong> Ambos autores del blog</p>
+                    </div>
+                    <div class="work-item">
+                        <h4>Propuestas de Solución Ambiental</h4>
+                        <p><strong>Fecha:</strong> Marzo 2025</p>
+                        <p><strong>Descripción:</strong> Desarrollo colaborativo de propuestas viables para mitigar los problemas ambientales identificados en Bucaramanga, considerando aspectos técnicos, económicos y sociales.</p>
+                        <p><strong>Soluciones Propuestas:</strong> Implementación de corredores verdes, mejoramiento del transporte público, programas de educación ambiental, sistemas de gestión integral de residuos.</p>
+                        <p><strong>Metodología:</strong> Análisis FODA, consulta con expertos, revisión de casos exitosos</p>
+                        <p><strong>Colaboradores:</strong> Trabajo conjunto de investigación</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="corte">
+                <h3>📊 Segundo Corte - Comunicación Visual</h3>
+                <div class="works-grid">
+                    <div class="work-item">
+                        <h4>Infografía: Problemática Ambiental de Bucaramanga</h4>
+                        <p><strong>Fecha:</strong> Abril 2025</p>
+                        <p><strong>Descripción:</strong> Diseño colaborativo de infografías que sintetizan los hallazgos del primer corte, presentando de manera visual y comprensible las causas, efectos y soluciones de los problemas ambientales locales.</p>
+                        <p><strong>Elementos Incluidos:</strong> Estadísticas de contaminación, mapas de zonas críticas, comparativos temporales, propuestas gráficas de solución.</p>
+                        <p><strong>Herramientas:</strong> Adobe Illustrator, Canva, herramientas de visualización de datos</p>
+                        <p><strong>Colaboradores:</strong> Diseño conjunto</p>
+                    </div>
+                    <div class="work-item">
+                        <h4>Línea de Tiempo: Evolución Ambiental Urbana</h4>
+                        <p><strong>Fecha:</strong> Abril 2025</p>
+                        <p><strong>Descripción:</strong> Construcción colaborativa de una línea de tiempo que documenta la evolución de los problemas ambientales en Bucaramanga desde 1980 hasta la actualidad, identificando momentos clave y cambios significativos.</p>
+                        <p><strong>Períodos Analizados:</strong> Expansión urbana (1980-2000), industrialización (2000-2010), conciencia ambiental (2010-2025)</p>
+                        <p><strong>Metodología:</strong> Investigación documental, entrevistas, análisis de datos históricos</p>
+                        <p><strong>Colaboradores:</strong> Investigación y diseño en equipo</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="corte">
+                <h3>🎬 Tercer Corte - Tecnología Cinematográfica</h3>
+                <div class="works-grid">
+                    <div class="work-item">
+                        <h4>Tecnologías de Producción Cinematográfica</h4>
+                        <p><strong>Fecha:</strong> Mayo 2025</p>
+                        <p><strong>Descripción:</strong> Investigación colaborativa sobre las tecnologías modernas utilizadas en la producción cinematográfica, desde cámaras digitales hasta software de post-producción, incluyendo tendencias emergentes como realidad virtual y inteligencia artificial.</p>
+                        <p><strong>Tecnologías Analizadas:</strong> Cámaras RED, sistemas de estabilización, iluminación LED, drones cinematográficos, software de edición profesional.</p>
+                        <p><strong>Metodología:</strong> Investigación técnica, análisis comparativo, pruebas prácticas</p>
+                        <p><strong>Colaboradores:</strong> Investigación técnica conjunta</p>
+                    </div>
+                    <div class="work-item">
+                        <h4>Proceso de Producción Audiovisual</h4>
+                        <p><strong>Fecha:</strong> Mayo - Junio 2025</p>
+                        <p><strong>Descripción:</strong> Análisis detallado del proceso completo de producción cinematográfica, desde la pre-producción hasta la distribución, incluyendo roles, flujos de trabajo y mejores prácticas de la industria actual.</p>
+                        <p><strong>Fases Estudiadas:</strong> Desarrollo del guión, pre-producción, rodaje, post-producción, distribución digital</p>
+                        <p><strong>Herramientas:</strong> Diagramas de flujo, estudios de caso, análisis de producciones reales</p>
+                        <p><strong>Colaboradores:</strong> Proyecto final conjunto</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Contacto -->
+        <section id="contact" class="section">
+            <h2>Contáctanos</h2>
+            <p>¿Tienes alguna pregunta sobre nuestros proyectos de investigación? ¿Quieres colaborar con nosotros en temas ambientales o de comunicación visual? No dudes en escribirnos.</p>
+
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h4>📧 Email del Equipo</h4>
+                    <p>investigacion.colaborativa@email.com</p>
+                </div>
+                <div class="contact-item">
+                    <h4>📱 Contacto</h4>
+                    <p>+57 314 253 4719</p>
+                </div>
+                <div class="contact-item">
+                    <h4>📍 Ubicación</h4>
+                    <p>Bucaramanga, Colombia</p>
+                </div>
+                <div class="contact-item">
+                    <h4>📚 Proyectos Académicos</h4>
+                    <p>academia.colaborativa@university.edu</p>
+                </div>
+            </div>
+
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="name">Nombre Completo</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Correo Electrónico</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Asunto</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Mensaje</label>
+                    <textarea id="message" name="message" required placeholder="Escribe tu mensaje para nuestro equipo..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn">Enviar Mensaje</button>
+            </form>
+        </section>
+    </div>
+
+    <script>
+        // Navegación entre secciones
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('.section');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remover clase active de todos los enlaces y secciones
+                navLinks.forEach(l => l.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+                
+                // Agregar clase active al enlace clickeado
+                link.classList.add('active');
+                
+                // Mostrar la sección correspondiente
+                const sectionId = link.getAttribute('data-section');
+                document.getElementById(sectionId).classList.add('active');
+            });
+        });
+
+        // Manejo del formulario de contacto
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const subject = formData.get('subject');
+            const message = formData.get('message');
+            
+            // Simulación de envío (aquí podrías integrar con un servicio real)
+            alert(`¡Gracias ${name}! Tu mensaje ha sido enviado correctamente a nuestro equipo. Te responderemos pronto a ${email}.`);
+            
+            // Limpiar formulario
+            this.reset();
+        });
+
+        // Efecto de animación en scroll para las tarjetas
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observar elementos para animaciones
+        document.querySelectorAll('.blog-post, .work-item, .skill-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
